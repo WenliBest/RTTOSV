@@ -1,0 +1,234 @@
+menu "RT-Thread Kernel"
+
+menu "Base Configuration"
+
+config RT_NAME_MAX
+    int "The Max Length of Object Name<2-16>"
+    range 2 16
+    default 8
+    help
+    
+config RT_ALIGN_SIZE
+    int "Alignment Size For CPU Architecture Data Access"
+    default 4
+    help
+    
+config RT_THREAD_PRIORITY_MAX
+    int "Maximal Level of Thread Priority <8-256>"
+    range 8 256
+    default 8  
+    
+config RT_TICK_PER_SECOND
+    int "OS Tick Per Second"
+    range 10 1000
+    default 100
+    help 
+    
+config RT_USING_TIMER_SOFT
+    bool "Software Timers Configuration"
+    default y
+    help
+        the timeout function context of soft-timer is under a high priority timer
+        thread.
+        
+if RT_USING_TIMER_SOFT
+
+config RT_TIMER_THREAD_PRIO
+    int "The Oriority Level of Timer Thread <0-31>"
+    default 4
+    
+config RT_TIMER_THREAD_STACK_SIZE
+    int "The Stack Size of Timer Thread <0-8192>"
+    default 512
+    
+endif
+    
+config RT_USING_COMPONENTS_INIT
+    bool "Using RT-Thread Components Initialization"
+    default y
+    help
+    
+if RT_USING_COMPONENTS_INIT
+
+config RT_USING_USER_MAIN
+    bool "Using Main"
+    default y
+    help
+    
+config RT_MAIN_THREAD_STACK_SIZE
+    int "The Stack Size of Main Thread<1-4086>"
+    default 256
+    help
+    
+endif
+
+config RT_USING_OVERFLOW_CHECK
+    bool "Thread Stack Over Flow Detect"
+    default n
+    help
+    
+config RT_USING_HOOK
+    bool "Using Hook"
+    default n
+    select RT_USING_IDLE_HOOK
+    help
+
+config RT_USING_IDLE_HOOK
+    bool "Using Idle Hook"
+    default y if RT_USING_HOOK
+    if RT_USING_IDLE_HOOK
+    config RT_IDLE_HOOK_LIST_SIZE
+        int "The Size of Idle Hook"
+        default 4
+        range 1 16
+        help
+            The system has a hook list. This is the hook list size.
+            
+    endif
+    
+endmenu
+
+menu "Debug Configuration"
+
+config RT_DEBUG
+    bool "Enable Kernel Debug Configuration"
+    default y
+    
+if RT_DEBUG
+
+config RT_DEBUG_COLOR
+    bool "Enable Color Debugging Log"
+    default n
+    
+config RT_DEBUG_INIT_CONFIG
+    bool "Enable debugging of components initialization"
+    default n
+    
+config RT_DEBUG_INIT
+    int
+    default 1 if RT_DEBUG_INIT_CONFIG
+    
+config RT_DEBUG_THREAD_CONFIG
+    bool "Enable Debugging of Thread State Changes"
+    default n
+    
+config RT_DEBUG_THREAD
+    int
+    default 1 if RT_DEBUG_THREAD_CONFIG
+    
+config RT_DEBUG_SCHEDULER_CONFIG
+    bool "Enable Debugging of Scheduler"
+    default n
+    
+config RT_DEBUG_SCHEDULER
+    int
+    default 1 if RT_DEBUG_SCHEDULER_CONFIG
+    
+config RT_DEBUG_IPC_CONFIG
+    bool "Enable Debugging of IPC"
+    default n
+    
+config RT_DEBUG_IPC
+    int
+    default 1 if RT_DEBUG_IPC_CONFIG
+    
+config RT_DEBUG_TIMER_CONFIG
+    bool "Enable Debugging of Timer"
+    default n
+config RT_DEBUG_TIMER
+    int
+    default 1 if RT_DEBUG_TIMER_CONFIG
+    
+config RT_DEBUG_IRQ_CONFIG
+    bool "Enable Debugging of IRQ(Interrupt Request)"
+    default n
+    
+config RT_DEBUG_IRQ
+    int
+    default 1 if RT_DEBUG_IRQ_CONFIG
+
+config RT_DEBUG_MEM_CONFIG
+    bool "Enable Debugging of Small Memory Algorithm"
+    default n
+    
+config RT_DEBUG_MEM
+    int
+    default 1 if RT_DEBUG_MEM_CONFIG
+    
+config RT_DEBUG_SLAB_CONFIG
+    bool "Enable Debugging of SLAB Memory Algorithm"
+    default n
+    
+config RT_DEBUG_SLAB
+    int
+    default 1 if RT_DEBUG_SLAB_CONFIG
+    
+config RT_DEBUG_MEMHEAP_CONFIG
+    bool "Enable Debugging of Memory Heap Algorithm"
+    default n
+    
+config RT_DEBUG_MEMHEAP
+    int
+    default 1 if RT_DEBUG_MEMHEAP_CONFIG
+    
+config RT_DEBUG_MODULE_CONFIG
+    bool "Enable Debugging of Application Module"
+    default n
+    
+config RT_DEBUG_MODULE
+    int
+    default 1 if RT_DEBUG_MODULE_CONFIG
+    
+endif
+
+endmenu
+
+menu "InterThread Communication"
+
+config RT_USING_SEMAPHORE
+    bool "Using Semaphore"
+    default y
+    
+config RT_USING_MUTEX
+    bool "Using Mutex"
+    default y
+    
+config RT_USING_EVENT
+    bool "Using Event"
+    default y
+    
+config RT_USING_MAILBOX
+    bool "Using MailBox"
+    default y
+
+config RT_USING_MESSAGEQUEUE
+    bool "Using Message Queue"
+    default y
+    
+endmenu
+
+menu "Memory Management"
+
+config RT_USING_MEMPOOL
+    bool "Using Memory Pool"
+    default y
+    help 
+    
+config RT_USING_HEAP
+    bool "Dynamic Heap Management"
+    default y
+    help
+    
+config RT_USING_SMALL_MEM
+    bool "Using Small Memory"
+    default y if RT_USING_HEAP
+    help 
+    
+config RT_USING_TINY_SIZE
+    bool "Using Tiny Size of Memory"
+    default y if RT_USING_HEAP
+    help
+    
+endmenu
+
+endmenu

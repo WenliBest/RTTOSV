@@ -1,0 +1,55 @@
+menu "FinSH Shell"
+
+config RT_USING_CONSOLE
+    bool "Using Console"
+    default y
+
+if RT_USING_CONSOLE
+
+config RT_CONSOLEBUF_SIZE 
+    int "Console Stack Size"
+	range 1 1024
+    default 128 
+    
+endif
+
+config RT_USING_FINSH
+    bool "Finsh Shell"
+    default n
+
+if RT_USING_FINSH
+
+config FINSH_USING_MSH
+    bool "Using FinSH MSH model"
+    default y 
+
+config FINSH_USING_MSH_ONLY 
+    bool "Using MSH Model Only"
+    default y 
+    
+config __FINSH_THREAD_PRIORITY 
+    int "__FINSH_THREAD_PRIORITY"
+    default 5
+    
+config FINSH_THREAD_PRIORITY 
+    int "FINSH_THREAD_PRIORITY"
+    default 6
+prompt "(RT_THREAD_PRIORITY_MAX / 8 * __FINSH_THREAD_PRIORITY + 1)"
+
+config FINSH_THREAD_STACK_SIZE 
+    int "Set FinSH Stack Size"
+    range 1 4096
+    default 512
+    
+config FINSH_HISTORY_LINES 
+    int "Set FinSH History Count"
+    range 1 32
+    default 1
+    
+config FINSH_USING_SYMTAB
+    bool "Set FinSH Table"
+    default y if RT_USING_FINSH
+    
+endif
+
+endmenu

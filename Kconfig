@@ -1,0 +1,2 @@
+source "src/Kconfig"
+source "components/finsh/Kconfig"
